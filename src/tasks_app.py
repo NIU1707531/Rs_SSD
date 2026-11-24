@@ -71,6 +71,17 @@ def modificar_tasca(
     print(f"Tasca [ID: {tasca.id}] modificada amb èxit")
 
 
+def completar_tasca(identificador):
+    tasques = carregar_tasques()
+    tasca = next((item for item in tasques if item.id == identificador), None)
+    if tasca is None:
+        print(f"No s'ha trobat cap tasca amb ID {identificador}.")
+        raise SystemExit(1)
+    tasca.estat = "completada"
+    desar_tasques(tasques)
+    print(f"Tasca [ID: {tasca.id}] marcada com a completada")
+
+
 def llistar_tasques():
     tasques = carregar_tasques()
     if not tasques:
@@ -110,6 +121,15 @@ def main():
         help="Nou estat de la tasca",
     )
 
+    completar = comandaments.add_parser(
+        "done",
+        aliases=["complete", "completar"],
+        help="Marcar una tasca com a completada",
+    )
+    completar.add_argument(
+        "--id", type=int, required=True, help="Identificador de la tasca"
+    )
+
     comandaments.add_parser("list", help="Llistar totes les tasques")
 
     arguments = analitzador.parse_args()
@@ -123,6 +143,8 @@ def main():
             arguments.due,
             arguments.estat,
         )
+    elif arguments.comandament in ("done", "complete", "completar"):
+        completar_tasca(arguments.id)
     elif arguments.comandament == "list":
         llistar_tasques()
 
