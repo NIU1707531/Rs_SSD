@@ -48,6 +48,29 @@ def afegir_tasca(titol, assignatura, data_limit=None):
     print(f"Tasca [ID: {tasca.id}] creada amb èxit")
 
 
+def modificar_tasca(
+    identificador, titol=None, assignatura=None, data_limit=None, estat=None
+):
+    tasques = carregar_tasques()
+    tasca = next((item for item in tasques if item.id == identificador), None)
+    if tasca is None:
+        print(f"No s'ha trobat cap tasca amb ID {identificador}.")
+        raise SystemExit(1)
+    if titol is None and assignatura is None and data_limit is None and estat is None:
+        print("Cal indicar almenys un atribut per modificar.")
+        raise SystemExit(1)
+    if titol is not None:
+        tasca.titol = titol
+    if assignatura is not None:
+        tasca.assignatura = assignatura
+    if data_limit is not None:
+        tasca.data_limit = data_limit
+    if estat is not None:
+        tasca.estat = estat
+    desar_tasques(tasques)
+    print(f"Tasca [ID: {tasca.id}] modificada amb èxit")
+
+
 def llistar_tasques():
     tasques = carregar_tasques()
     if not tasques:
@@ -68,11 +91,38 @@ def main():
         "--due", type=validar_data_limit, help="Data límit (YYYY-MM-DD)"
     )
 
+    modificar = comandaments.add_parser(
+        "edit", aliases=["update", "modify"], help="Modificar una tasca existent"
+    )
+    modificar.add_argument(
+        "--id", type=int, required=True, help="Identificador de la tasca"
+    )
+    modificar.add_argument("--title", help="Nou títol de la tasca")
+    modificar.add_argument("--subject", help="Nova assignatura de la tasca")
+    modificar.add_argument(
+        "--due", type=validar_data_limit, help="Nova data límit (YYYY-MM-DD)"
+    )
+    modificar.add_argument(
+        "--estat",
+        "--status",
+        dest="estat",
+        choices=["pendent", "completada"],
+        help="Nou estat de la tasca",
+    )
+
     comandaments.add_parser("list", help="Llistar totes les tasques")
 
     arguments = analitzador.parse_args()
     if arguments.comandament == "add":
         afegir_tasca(arguments.title, arguments.subject, arguments.due)
+    elif arguments.comandament in ("edit", "update", "modify"):
+        modificar_tasca(
+            arguments.id,
+            arguments.title,
+            arguments.subject,
+            arguments.due,
+            arguments.estat,
+        )
     elif arguments.comandament == "list":
         llistar_tasques()
 
