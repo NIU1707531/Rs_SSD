@@ -101,3 +101,35 @@ class Tasca {
   * **Atès que** el dia actual és `2026-11-24` i existeix una tasca pendent amb data límit `2026-11-28`
   * **Quan** l'estudiant executa `python3 src/tasks_app.py list`
   * **Aleshores** el sistema mostra `[URGENT]` en la línia corresponent a aquesta tasca[cite: 3, 5, 6].
+
+
+
+---
+
+## Iteració 3 (v3.0): Modes de Llistat i Filtres
+
+### 2. User Stories (Iteració 3)
+* **US-07:** Com a estudiant, vull veure un resum de l'estat de les meves tasques (totals, pendents, completades, caducades i urgents) per tal de tenir una visió ràpida de la meva càrrega de treball[cite: 2, 7].
+* **US-08:** Com a estudiant, vull llistar les tasques d'una assignatura concreta per tal de centrar-me en una matèria determinada[cite: 2, 7].
+* **US-09:** Com a estudiant, vull filtrar les tasques per una paraula clau al títol per tal de trobar ràpidament una tasca específica[cite: 2, 7].
+
+### 4. Requisits (Iteració 3 - Patró SOPHIST)
+* **RF-10:** El sistema tasks_app ha de proveir a l'estudiant la capacitat de mostrar un resum amb la quantitat total de tasques i el recompte de tasques pendents, completades, caducades i urgents[cite: 3, 5, 7].
+* **RF-11:** El sistema tasks_app ha de proveir a l'estudiant la capacitat de llistar les tasques filtrades per una assignatura concreta[cite: 3, 5, 7].
+* **RF-12:** El sistema tasks_app ha de proveir a l'estudiant la capacitat de llistar les tasques que continguin una paraula clau en el títol[cite: 3, 5, 7].
+
+### 5. Criteris d'acceptació i proves (Gherkin scenarios - Iteració 3)
+* **GS-09: Resum de l'estat de les tasques**
+  * **Atès que** el registre conté tasques en diferents estats i terminis
+  * **Quan** l'estudiant executa la comanda de resum de tasques
+  * **Aleshores** el sistema mostra el total de tasques i les quantitats corresponents a pendents, completades, caducades i urgents[cite: 3, 5, 7].
+
+* **GS-10: Llistat de tasques per assignatura**
+  * **Atès que** existeixen tasques de `'RS'` i d'`'SO'` al registre
+  * **Quan** l'estudiant filtra el llistat per l'assignatura `'RS'`
+  * **Aleshores** el sistema mostra únicament les tasques corresponents a `'RS'`[cite: 3, 5, 7].
+
+* **GS-11: Llistat de tasques per paraula clau en el títol**
+  * **Atès que** existeixen tasques amb títols com `'Pràctica 1'` i `'Examen parcial'`
+  * **Quan** l'estudiant filtra el llistat per la paraula clau `'Examen'`
+  * **Aleshores** el sistema mostra únicament les tasques el títol de les quals conté `'Examen'`[cite: 3, 5, 7].

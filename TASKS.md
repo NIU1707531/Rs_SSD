@@ -31,3 +31,12 @@ Objectiu: Afegir data límit (`--due`), modificació per `--id`, marcatge de tas
 - [x] Tasca 2.4: Implementar a `src/tasks_app.py` la funcionalitat per marcar una tasca com a completada (`--id <ID>`). (Requisit RF-07, Escenari GS-06)[cite: 3, 6]
 - [x] Tasca 2.5: Actualitzar `list` a `src/tasks_app.py` perquè en tasques pendents mostri `[CADUCADA]` si la data límit és anterior a la data actual o `[URGENT]` si falta menys de 7 dies. (Requisits RF-08 i RF-09, Escenaris GS-07 i GS-08)[cite: 3, 6]
 - [x] Tasca 2.6: Ampliar els tests a `test/test_tasks_app.py` amb els escenaris GS-04 a GS-08 i verificar que tots passen amb `python3 -m pytest test`.[cite: 4, 6]
+
+## Increment 3: Modes de Llistat i Filtres
+Objectiu: Afegir resum estadístic de tasques, filtre per assignatura i filtre per paraula clau al títol.
+
+### Tasques d'Execució:
+- [ ] Tasca 3.1: Implementar a `src/tasks_app.py` el mode de resum amb el total de tasques i el recompte de pendents, completades, caducades i urgents. (Requisit RF-10, Escenari GS-09)[cite: 3, 7]
+- [ ] Tasca 3.2: Implementar a `src/tasks_app.py` el filtre de llistat per assignatura. (Requisit RF-11, Escenari GS-10)[cite: 3, 7]
+- [ ] Tasca 3.3: Implementar a `src/tasks_app.py` el filtre de llistat per paraula clau en el títol. (Requisit RF-12, Escenari GS-11)[cite: 3, 7]
+- [ ] Tasca 3.4: Afegir tests d'integració a `test/test_tasks_app.py` per als escenaris GS-09, GS-10 i GS-11 i verificar que tots els tests passen amb `python3 -m pytest test`.[cite: 4, 7]
