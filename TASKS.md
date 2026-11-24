@@ -30,4 +30,4 @@ Objectiu: Afegir data límit (`--due`), modificació per `--id`, marcatge de tas
 - [x] Tasca 2.3: Implementar a `src/tasks_app.py` la modificació d'atributs d'una tasca identificada per `--id <ID>`. (Requisit RF-06, Escenari GS-05)[cite: 3, 6]
 - [x] Tasca 2.4: Implementar a `src/tasks_app.py` la funcionalitat per marcar una tasca com a completada (`--id <ID>`). (Requisit RF-07, Escenari GS-06)[cite: 3, 6]
 - [x] Tasca 2.5: Actualitzar `list` a `src/tasks_app.py` perquè en tasques pendents mostri `[CADUCADA]` si la data límit és anterior a la data actual o `[URGENT]` si falta menys de 7 dies. (Requisits RF-08 i RF-09, Escenaris GS-07 i GS-08)[cite: 3, 6]
-- [ ] Tasca 2.6: Ampliar els tests a `test/test_tasks_app.py` amb els escenaris GS-04 a GS-08 i verificar que tots passen amb `python3 -m pytest test`.[cite: 4, 6]
+- [x] Tasca 2.6: Ampliar els tests a `test/test_tasks_app.py` amb els escenaris GS-04 a GS-08 i verificar que tots passen amb `python3 -m pytest test`.[cite: 4, 6]
