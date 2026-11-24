@@ -25,7 +25,7 @@ Objectiu: Tenir una versió CLI funcional per afegir i consultar tasques en JSON
 Objectiu: Afegir data límit (`--due`), modificació per `--id`, marcatge de tasca completada i alertes `[CADUCADA]` / `[URGENT]` al llistat.
 
 ### Tasques d'Execució:
-- [ ] Tasca 2.1: Actualitzar el model `Task` a `src/models.py` per suportar el camp opcional de data límit (`data_limit`) i la serialització/desserialització JSON mantenint compatibilitat amb tasques anteriors. (Requisit RF-05)[cite: 3, 6]
+- [x] Tasca 2.1: Actualitzar el model `Task` a `src/models.py` per suportar el camp opcional de data límit (`data_limit`) i la serialització/desserialització JSON mantenint compatibilitat amb tasques anteriors. (Requisit RF-05)[cite: 3, 6]
 - [ ] Tasca 2.2: Actualitzar `add` a `src/tasks_app.py` perquè accepti `--due YYYY-MM-DD` i validar el format de data. (Requisit RF-05, Escenari GS-04)[cite: 3, 6]
 - [ ] Tasca 2.3: Implementar a `src/tasks_app.py` la modificació d'atributs d'una tasca identificada per `--id <ID>`. (Requisit RF-06, Escenari GS-05)[cite: 3, 6]
 - [ ] Tasca 2.4: Implementar a `src/tasks_app.py` la funcionalitat per marcar una tasca com a completada (`--id <ID>`). (Requisit RF-07, Escenari GS-06)[cite: 3, 6]
