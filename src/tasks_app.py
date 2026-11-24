@@ -93,10 +93,19 @@ def obtenir_alerta(tasca, avui):
     return ""
 
 
-def llistar_tasques(avui=None):
+def llistar_tasques(avui=None, assignatura=None):
     tasques = carregar_tasques()
+    if assignatura is not None:
+        tasques = [
+            tasca
+            for tasca in tasques
+            if tasca.assignatura.lower() == assignatura.lower()
+        ]
     if not tasques:
-        print("Registre de tasques buit.")
+        if assignatura is not None:
+            print(f"No s'han trobat tasques amb l'assignatura {assignatura}.")
+        else:
+            print("Registre de tasques buit.")
         return
     if avui is None:
         avui = date.today()
@@ -181,7 +190,14 @@ def main():
         help="Mostrar un resum de les tasques",
     )
 
-    comandaments.add_parser("list", help="Llistar totes les tasques")
+    llistar = comandaments.add_parser("list", help="Llistar totes les tasques")
+    llistar.add_argument(
+        "--subject",
+        "--assignatura",
+        "-s",
+        dest="assignatura",
+        help="Filtrar les tasques per assignatura",
+    )
 
     arguments = analitzador.parse_args()
     if arguments.comandament == "add":
@@ -199,7 +215,7 @@ def main():
     elif arguments.comandament in ("summary", "resum", "stats"):
         mostrar_resum()
     elif arguments.comandament == "list":
-        llistar_tasques()
+        llistar_tasques(assignatura=arguments.assignatura)
 
 
 if __name__ == "__main__":
