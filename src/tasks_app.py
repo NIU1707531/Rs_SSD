@@ -111,6 +111,31 @@ def llistar_tasques(avui=None):
         print(linia)
 
 
+def obtenir_resum(avui=None):
+    tasques = carregar_tasques()
+    if avui is None:
+        avui = date.today()
+    pendents = [tasca for tasca in tasques if tasca.estat == "pendent"]
+    alertes = [obtenir_alerta(tasca, avui) for tasca in pendents]
+    return {
+        "total": len(tasques),
+        "pendents": len(pendents),
+        "completades": sum(tasca.estat == "completada" for tasca in tasques),
+        "caducades": alertes.count("[CADUCADA]"),
+        "urgents": alertes.count("[URGENT]"),
+    }
+
+
+def mostrar_resum(avui=None):
+    resum = obtenir_resum(avui)
+    print("Resum de tasques:")
+    print(f"Total: {resum['total']}")
+    print(f"Pendents: {resum['pendents']}")
+    print(f"Completades: {resum['completades']}")
+    print(f"Caducades: {resum['caducades']}")
+    print(f"Urgents: {resum['urgents']}")
+
+
 def main():
     analitzador = argparse.ArgumentParser(description="Gestor de tasques acadèmiques.")
     comandaments = analitzador.add_subparsers(dest="comandament", required=True)
@@ -150,6 +175,12 @@ def main():
         "--id", type=int, required=True, help="Identificador de la tasca"
     )
 
+    comandaments.add_parser(
+        "summary",
+        aliases=["resum", "stats"],
+        help="Mostrar un resum de les tasques",
+    )
+
     comandaments.add_parser("list", help="Llistar totes les tasques")
 
     arguments = analitzador.parse_args()
@@ -165,6 +196,8 @@ def main():
         )
     elif arguments.comandament in ("done", "complete", "completar"):
         completar_tasca(arguments.id)
+    elif arguments.comandament in ("summary", "resum", "stats"):
+        mostrar_resum()
     elif arguments.comandament == "list":
         llistar_tasques()
 
