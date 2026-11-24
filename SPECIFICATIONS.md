@@ -45,3 +45,59 @@ classDiagram
   aleshores el sistema mostra per pantalla:
     "[1] Pràctica 1 (RS) - estat: pendent"
     "[2] Examen parcial (SO) - estat: pendent"
+
+
+---
+
+## Iteració 2 (v2.0): Dates Límit, Edició, Compleció i Alertes
+
+### 2. User Stories (Iteració 2)
+* **US-03:** Com a estudiant, vull indicar una data límit en crear una tasca per tal de prioritzar els meus lliuraments i exàmens[cite: 2, 6].
+* **US-04:** Com a estudiant, vull modificar qualsevol atribut d'una tasca existent a partir del seu identificador per tal de corregir errors d'introducció o actualitzar dades[cite: 2, 6].
+* **US-05:** Com a estudiant, vull marcar una tasca com a completada per tal de diferenciar la feina ja feta de la pendent[cite: 2, 6].
+* **US-06:** Com a estudiant, vull veure indicacions de caducitat o urgència en llistar les tasques pendents per tal d'evitar oblidar terminis propers o ja vençuts[cite: 2, 6].
+
+### 3. Model de Dades Actualitzat (Mermaid)
+```mermaid
+classDiagram
+class Tasca {
+  +int id
+  +string titol
+  +string assignatura
+  +string estat
+  +string data_limit
+}
+```[cite: 5, 6]
+
+### 4. Requisits (Iteració 2 - Patró SOPHIST)
+* **RF-05:** El sistema tasks_app ha de proveir a l'estudiant la capacitat de registrar una data límit amb format `YYYY-MM-DD` en crear una tasca mitjançant l'opció `--due <YYYY-MM-DD>`[cite: 3, 5, 6].
+* **RF-06:** El sistema tasks_app ha de proveir a l'estudiant la capacitat de modificar qualsevol atribut d'una tasca existent identificada per `--id <ID>`[cite: 3, 5, 6].
+* **RF-07:** El sistema tasks_app ha de proveir a l'estudiant la capacitat de marcar una tasca com a completada identificada per `--id <ID>`[cite: 3, 5, 6].
+* **RF-08:** Si una tasca pendent té una data límit anterior al dia actual, el sistema tasks_app ha de mostrar `[CADUCADA]` en llistar-la[cite: 3, 5, 6].
+* **RF-09:** Si una tasca pendent té una data límit a menys de 7 dies del dia actual (incloent-hi el dia actual i sense estar caducada), el sistema tasks_app ha de mostrar `[URGENT]` en llistar-la[cite: 3, 5, 6].
+
+### 5. Criteris d'acceptació i proves (Gherkin scenarios - Iteració 2)
+* **GS-04: Creació d'una tasca amb data límit**
+  * **Atès que** el registre de tasques està buit
+  * **Quan** l'estudiant executa `python3 src/tasks_app.py add --title 'Lliurament 2' --subject 'RS' --due 2026-12-15`
+  * **Aleshores** el sistema confirma la creació de la tasca i la desa amb la data límit `2026-12-15`[cite: 3, 5, 6].
+
+* **GS-05: Modificació d'un atribut d'una tasca existent per ID**
+  * **Atès que** existeix una tasca amb `id: 1`, títol `'Practica 1'`, assignatura `'RS'` i estat `'pendent'`
+  * **Quan** l'estudiant executa la comanda de modificació per `--id 1` canviant el títol a `'Pràctica 1'`
+  * **Aleshores** la tasca amb `id: 1` actualitza el seu títol a `'Pràctica 1'` i es guarda al fitxer JSON[cite: 3, 5, 6].
+
+* **GS-06: Marcar una tasca com a completada**
+  * **Atès que** existeix una tasca amb `id: 1` i estat `'pendent'`
+  * **Quan** l'estudiant executa la comanda per completar la tasca amb `--id 1`
+  * **Aleshores** l'estat de la tasca amb `id: 1` passa a `'completada'`[cite: 3, 5, 6].
+
+* **GS-07: Tasca pendent caducada en el llistat**
+  * **Atès que** el dia actual és `2026-11-24` i existeix una tasca pendent amb data límit `2026-11-10`
+  * **Quan** l'estudiant executa `python3 src/tasks_app.py list`
+  * **Aleshores** el sistema mostra `[CADUCADA]` en la línia corresponent a aquesta tasca[cite: 3, 5, 6].
+
+* **GS-08: Tasca pendent urgent en el llistat**
+  * **Atès que** el dia actual és `2026-11-24` i existeix una tasca pendent amb data límit `2026-11-28`
+  * **Quan** l'estudiant executa `python3 src/tasks_app.py list`
+  * **Aleshores** el sistema mostra `[URGENT]` en la línia corresponent a aquesta tasca[cite: 3, 5, 6].
