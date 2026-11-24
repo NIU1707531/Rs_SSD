@@ -1,5 +1,7 @@
 import argparse
 import json
+import re
+from datetime import date
 from pathlib import Path
 
 try:
@@ -8,6 +10,18 @@ except ImportError:
     from src.models import Task
 
 FITXER_TASQUES = Path(__file__).resolve().parent.parent / "data" / "tasks.json"
+
+
+def validar_data_limit(cadena):
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", cadena):
+        raise argparse.ArgumentTypeError(
+            "La data límit ha de tenir el format YYYY-MM-DD"
+        )
+    try:
+        date.fromisoformat(cadena)
+    except ValueError as error:
+        raise argparse.ArgumentTypeError("La data límit no és vàlida") from error
+    return cadena
 
 
 def carregar_tasques():
@@ -25,10 +39,10 @@ def desar_tasques(tasques):
     )
 
 
-def afegir_tasca(titol, assignatura):
+def afegir_tasca(titol, assignatura, data_limit=None):
     tasques = carregar_tasques()
     identificador = max((tasca.id for tasca in tasques), default=0) + 1
-    tasca = Task(identificador, titol, assignatura)
+    tasca = Task(identificador, titol, assignatura, data_limit=data_limit)
     tasques.append(tasca)
     desar_tasques(tasques)
     print(f"Tasca [ID: {tasca.id}] creada amb èxit")
@@ -50,12 +64,15 @@ def main():
     afegir = comandaments.add_parser("add", help="Afegir una nova tasca")
     afegir.add_argument("--title", required=True, help="Títol de la tasca")
     afegir.add_argument("--subject", required=True, help="Assignatura de la tasca")
+    afegir.add_argument(
+        "--due", type=validar_data_limit, help="Data límit (YYYY-MM-DD)"
+    )
 
     comandaments.add_parser("list", help="Llistar totes les tasques")
 
     arguments = analitzador.parse_args()
     if arguments.comandament == "add":
-        afegir_tasca(arguments.title, arguments.subject)
+        afegir_tasca(arguments.title, arguments.subject, arguments.due)
     elif arguments.comandament == "list":
         llistar_tasques()
 
