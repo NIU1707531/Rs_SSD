@@ -82,13 +82,33 @@ def completar_tasca(identificador):
     print(f"Tasca [ID: {tasca.id}] marcada com a completada")
 
 
-def llistar_tasques():
+def obtenir_alerta(tasca, avui):
+    if tasca.estat != "pendent" or not tasca.data_limit:
+        return ""
+    data_limit = date.fromisoformat(tasca.data_limit)
+    if data_limit < avui:
+        return "[CADUCADA]"
+    if (data_limit - avui).days < 7:
+        return "[URGENT]"
+    return ""
+
+
+def llistar_tasques(avui=None):
     tasques = carregar_tasques()
     if not tasques:
         print("Registre de tasques buit.")
         return
+    if avui is None:
+        avui = date.today()
     for tasca in tasques:
-        print(f"[{tasca.id}] {tasca.titol} ({tasca.assignatura}) - estat: {tasca.estat}")
+        linia = (
+            f"[{tasca.id}] {tasca.titol} ({tasca.assignatura})"
+            f" - estat: {tasca.estat}"
+        )
+        alerta = obtenir_alerta(tasca, avui)
+        if alerta:
+            linia += f" {alerta}"
+        print(linia)
 
 
 def main():
