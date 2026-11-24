@@ -209,3 +209,110 @@ def test_sense_alerta_en_completades_i_dates_llunyanes():
         "[1] Caducada completada (RS) - estat: completada\n"
         "[2] Lliurament llunyà (SO) - estat: pendent\n"
     )
+
+
+def test_resum_de_tasques():
+    avui = date.today()
+    desar_tasques(
+        [
+            {
+                "id": 1,
+                "titol": "Caducada",
+                "assignatura": "RS",
+                "estat": "pendent",
+                "data_limit": str(avui - timedelta(days=14)),
+            },
+            {
+                "id": 2,
+                "titol": "Urgent",
+                "assignatura": "RS",
+                "estat": "pendent",
+                "data_limit": str(avui + timedelta(days=4)),
+            },
+            {
+                "id": 3,
+                "titol": "Sense data",
+                "assignatura": "SO",
+                "estat": "pendent",
+            },
+            {
+                "id": 4,
+                "titol": "Llunyana",
+                "assignatura": "SO",
+                "estat": "pendent",
+                "data_limit": str(avui + timedelta(days=14)),
+            },
+            {
+                "id": 5,
+                "titol": "Feta caducada",
+                "assignatura": "RS",
+                "estat": "completada",
+                "data_limit": str(avui - timedelta(days=14)),
+            },
+            {
+                "id": 6,
+                "titol": "Feta",
+                "assignatura": "SO",
+                "estat": "completada",
+            },
+        ]
+    )
+    assert executar("summary") == (
+        "Resum de tasques:\n"
+        "Total: 6\n"
+        "Pendents: 4\n"
+        "Completades: 2\n"
+        "Caducades: 1\n"
+        "Urgents: 1\n"
+    )
+
+
+def test_llistat_per_assignatura():
+    desar_tasques(
+        [
+            {
+                "id": 1,
+                "titol": "Pràctica 1",
+                "assignatura": "RS",
+                "estat": "pendent",
+            },
+            {
+                "id": 2,
+                "titol": "Examen parcial",
+                "assignatura": "SO",
+                "estat": "pendent",
+            },
+            {
+                "id": 3,
+                "titol": "Lliurament 2",
+                "assignatura": "RS",
+                "estat": "pendent",
+            },
+        ]
+    )
+    assert executar("list", "--subject", "RS") == (
+        "[1] Pràctica 1 (RS) - estat: pendent\n"
+        "[3] Lliurament 2 (RS) - estat: pendent\n"
+    )
+
+
+def test_llistat_per_paraula_clau():
+    desar_tasques(
+        [
+            {
+                "id": 1,
+                "titol": "Pràctica 1",
+                "assignatura": "RS",
+                "estat": "pendent",
+            },
+            {
+                "id": 2,
+                "titol": "Examen parcial",
+                "assignatura": "SO",
+                "estat": "pendent",
+            },
+        ]
+    )
+    assert executar("list", "--keyword", "Examen") == (
+        "[2] Examen parcial (SO) - estat: pendent\n"
+    )
