@@ -93,7 +93,7 @@ def obtenir_alerta(tasca, avui):
     return ""
 
 
-def llistar_tasques(avui=None, assignatura=None):
+def llistar_tasques(avui=None, assignatura=None, paraula_clau=None):
     tasques = carregar_tasques()
     if assignatura is not None:
         tasques = [
@@ -101,8 +101,14 @@ def llistar_tasques(avui=None, assignatura=None):
             for tasca in tasques
             if tasca.assignatura.lower() == assignatura.lower()
         ]
+    if paraula_clau is not None:
+        tasques = [
+            tasca for tasca in tasques if paraula_clau.lower() in tasca.titol.lower()
+        ]
     if not tasques:
-        if assignatura is not None:
+        if paraula_clau is not None:
+            print(f"No s'han trobat tasques amb la paraula clau {paraula_clau}.")
+        elif assignatura is not None:
             print(f"No s'han trobat tasques amb l'assignatura {assignatura}.")
         else:
             print("Registre de tasques buit.")
@@ -198,6 +204,13 @@ def main():
         dest="assignatura",
         help="Filtrar les tasques per assignatura",
     )
+    llistar.add_argument(
+        "--keyword",
+        "--paraula",
+        "-k",
+        dest="paraula_clau",
+        help="Filtrar les tasques per una paraula clau del títol",
+    )
 
     arguments = analitzador.parse_args()
     if arguments.comandament == "add":
@@ -215,7 +228,9 @@ def main():
     elif arguments.comandament in ("summary", "resum", "stats"):
         mostrar_resum()
     elif arguments.comandament == "list":
-        llistar_tasques(assignatura=arguments.assignatura)
+        llistar_tasques(
+            assignatura=arguments.assignatura, paraula_clau=arguments.paraula_clau
+        )
 
 
 if __name__ == "__main__":

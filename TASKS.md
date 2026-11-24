@@ -38,5 +38,5 @@ Objectiu: Afegir resum estadístic de tasques, filtre per assignatura i filtre p
 ### Tasques d'Execució:
 - [x] Tasca 3.1: Implementar a `src/tasks_app.py` el mode de resum amb el total de tasques i el recompte de pendents, completades, caducades i urgents. (Requisit RF-10, Escenari GS-09)[cite: 3, 7]
 - [x] Tasca 3.2: Implementar a `src/tasks_app.py` el filtre de llistat per assignatura. (Requisit RF-11, Escenari GS-10)[cite: 3, 7]
-- [ ] Tasca 3.3: Implementar a `src/tasks_app.py` el filtre de llistat per paraula clau en el títol. (Requisit RF-12, Escenari GS-11)[cite: 3, 7]
+- [x] Tasca 3.3: Implementar a `src/tasks_app.py` el filtre de llistat per paraula clau en el títol. (Requisit RF-12, Escenari GS-11)[cite: 3, 7]
 - [ ] Tasca 3.4: Afegir tests d'integració a `test/test_tasks_app.py` per als escenaris GS-09, GS-10 i GS-11 i verificar que tots els tests passen amb `python3 -m pytest test`.[cite: 4, 7]
